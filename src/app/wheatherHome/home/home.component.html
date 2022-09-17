@@ -1,0 +1,91 @@
+<div class="container p-4">
+  <div class="card-header p-2">
+    <div>
+      <h2 class="d-flex justify-content-center title">Current Forecast Wheather</h2>
+     </div>
+  </div>
+  <div class="row">
+    <div class="card-primary col-md-6 mb-2">
+      <div class="card card-body">
+        <form (submit)="submitLocation(city)">
+          <label class="form-control-label label-custom mr-2">City</label>
+          <input type="text" placeholder="Ex: Uberlandia" class="form-control" autofocus #city>
+          <div>
+            <mat-calendar [(selected)]="date"></mat-calendar>
+          </div>
+          <button class="btn btn-primary btn-block mt-2">
+            Get Weather
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!--  -->
+      <div *ngIf="weather" class="card card-body">
+        <ul class="d-flex justify-content-between px-2" style="list-style-type:none">
+          <li class="h4">
+            <h3>Hoje</h3>
+            <div>
+              <span>{{nameCity.generationtime_ms}}</span>
+            </div>
+            <div>
+              <span>CO</span>
+            </div>
+            <div>
+              <span>Dust</span>
+            </div>
+          </li>
+          <li class="h4">
+            <h3>Hoje</h3>
+            <div>
+              <span>30º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+          </li>
+          <li class="h4">
+            <h3>Hoje</h3>
+            <div>
+              <span>30º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+          </li>
+          <li class="h4">
+            <h3>Hoje</h3>
+            <div>
+              <span>30º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+          </li>
+          <li class="h4">
+            <h3>Hoje</h3>
+            <div>
+              <span>30º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+            <div>
+              <span>10º</span>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
