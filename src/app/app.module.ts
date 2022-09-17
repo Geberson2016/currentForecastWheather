@@ -10,6 +10,7 @@ import { HomeComponent } from './wheatherHome/home/home.component';
 import {MatNativeDateModule, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {HttpClientModule} from '@angular/common/http'
     MatCardModule,
     MatNativeDateModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}

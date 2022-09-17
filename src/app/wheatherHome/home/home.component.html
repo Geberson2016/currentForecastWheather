@@ -7,16 +7,14 @@
   <div class="row">
     <div class="card-primary col-md-6 mb-2">
       <div class="card card-body">
-        <form (submit)="submitLocation(city)">
           <label class="form-control-label label-custom mr-2">City</label>
-          <input type="text" placeholder="Ex: Uberlandia" class="form-control" autofocus #city>
+          <input #searchCityRef type="text" placeholder="Ex: Uberlandia" class="form-control" autofocus [(ngModel)]="nameCity">
           <div>
             <mat-calendar [(selected)]="date"></mat-calendar>
           </div>
           <button class="btn btn-primary btn-block mt-2">
             Get Weather
           </button>
-        </form>
       </div>
     </div>
     <div class="col-md-6">
@@ -26,7 +24,7 @@
           <li class="h4">
             <h3>Hoje</h3>
             <div>
-              <span>{{nameCity.generationtime_ms}}</span>
+              <span>{{city.generationtime_ms}}</span>
             </div>
             <div>
               <span>CO</span>

@@ -1,22 +1,49 @@
 import { City } from './../../model/city.model';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { WeatherService } from '../../services/weather.service'
 import { Weather } from 'src/app/model/weather.model';
+import { debounceTime, takeUntil } from "rxjs/operators";
+import { fromEvent, pipe, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
+  @ViewChild('searchCityRef', {static: true}) searchCityRef: ElementRef;
+
+  searchCitySub: Subscription;
+
   date: Date;
   weather: Weather;
-  nameCity: City
+  city: City
+
+  nameCity = '';
 
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit() {
+    this.nameCity = '';
+  }
 
+  ngAfterViewInit() {
+    this.searchCitySub = fromEvent(this.searchCityRef.nativeElement, 'keyup')
+    .pipe(debounceTime(2000))
+    .subscribe((e:any) => {
+      this.nameCity = e.target.value;
+      this.changeLocalition(this.nameCity);
+    })
+  }
+
+  getLocalition(city:string){
+    this.weatherService.getLocalation(city).subscribe(
+      res => {
+        console.log(res );
+        this.city = res
+      },
+      err => console.log(err)
+    )
   }
 
   getWeather(latitude:string, longitude:string, dateSelected:string){
@@ -29,27 +56,32 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  getLocalition(city:string){
-    this.weatherService.getLocalation(city).subscribe(
+
+
+  changeLocalition(newValue:any) {
+    this.nameCity = newValue
+    this.weatherService.getLocalation(this.nameCity).pipe(debounceTime(1000)).subscribe(
       res => {
         console.log(res );
-        this.nameCity = res
+        this.city = res
       },
       err => console.log(err)
     )
+    console.log(this.nameCity)
+
   }
 
-  submitLocation(city:HTMLInputElement) {
-    this.getLocalition(city.value);
+  submitLocation(nameCity:HTMLInputElement) {
+    this.getLocalition(nameCity.value);
     let dateBase = this.date.toISOString().replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
     let dateResult = dateBase.slice(0,10);
 
 
 
-    this.getWeather(this.nameCity.results[0].latitude , this.nameCity.results[0].longitude, dateResult);
+    this.getWeather(this.city.results[0].latitude , this.city.results[0].longitude, dateResult);
 
-    city.value = '';
-    city.focus();
+    nameCity.value = '';
+    nameCity.focus();
 
     return false
   }
