@@ -29,40 +29,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.searchCitySub = fromEvent(this.searchCityRef.nativeElement, 'keyup')
-    .pipe(debounceTime(2000))
+    .pipe(debounceTime(1500))
     .subscribe((e:any) => {
       this.nameCity = e.target.value;
-      this.changeLocalition(this.nameCity);
+      this.changeLocalization(this.nameCity);
     })
   }
 
-  getLocalition(city:string){
-    this.weatherService.getLocalation(city).subscribe(
-      res => {
-        console.log(res );
-        this.city = res
-      },
-      err => console.log(err)
-    )
-  }
-
-  getWeather(latitude:string, longitude:string, dateSelected:string){
-    this.weatherService.getWeather(latitude, longitude, dateSelected).subscribe(
-      res => {
-        console.log(res);
-        this.weather = res
-      },
-      err => console.log(err)
-    )
-  }
-
-
-
-  changeLocalition(newValue:any) {
+  changeLocalization(newValue:any) {
     this.nameCity = newValue
-    this.weatherService.getLocalation(this.nameCity).pipe(debounceTime(1000)).subscribe(
+    this.weatherService.getLocalization(this.nameCity).pipe(debounceTime(1000)).subscribe(
       res => {
-        console.log(res );
         this.city = res
       },
       err => console.log(err)
@@ -71,19 +48,33 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   }
 
-  submitLocation(nameCity:HTMLInputElement) {
-    this.getLocalition(nameCity.value);
+  getWeather(){
     let dateBase = this.date.toISOString().replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
     let dateResult = dateBase.slice(0,10);
 
 
-
-    this.getWeather(this.city.results[0].latitude , this.city.results[0].longitude, dateResult);
-
-    nameCity.value = '';
-    nameCity.focus();
-
-    return false
+    this.weatherService.getWeather(this.city.results[0].latitude, this.city.results[0].longitude, dateResult, '2022-09-21').subscribe(
+      res => {
+        console.log(res);
+        this.weather = res
+      },
+      err => console.log(err)
+    )
   }
+
+  // submitLocation(nameCity:HTMLInputElement) {
+
+  //   let dateBase = this.date.toISOString().replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
+  //   let dateResult = dateBase.slice(0,10);
+
+
+
+  //   this.getWeather(this.city.results[0].latitude , this.city.results[0].longitude, dateResult);
+
+  //   nameCity.value = '';
+  //   nameCity.focus();
+
+  //   return false
+  // }
 
 }

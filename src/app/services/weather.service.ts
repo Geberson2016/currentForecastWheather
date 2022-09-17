@@ -13,15 +13,16 @@ export class WeatherService {
 
 
   constructor(private http: HttpClient) {
-    this.foreCast = `https://api.open-meteo.com/v1/forecast?hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo`
+    this.foreCast = `https://api.open-meteo.com/v1/forecast?daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo`
+
     this.geocoding = `https://geocoding-api.open-meteo.com/v1/search?`
    }
 
-   getWeather(latitude:string, logitude:string, dateSelected:string){
-    return this.http.get<Weather>(`${this.foreCast}&latitude=${latitude}&longitude=${logitude}&start_date=${dateSelected}&end_date=${dateSelected}`)
+   getWeather(latitude:string, logitude:string, dateSelected:string, date:string){
+    return this.http.get<Weather>(`${this.foreCast}&latitude=${latitude}&longitude=${logitude}&start_date=${dateSelected}&end_date=${date}`)
    }
 
-   getLocalation(city:string){
+   getLocalization(city:string){
     return this.http.get<City>(`${this.geocoding}&name=${city}`)
 
    }
