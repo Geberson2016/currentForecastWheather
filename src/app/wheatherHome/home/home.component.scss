@@ -12,6 +12,7 @@
 .card-body {
   background-color: #f0f8ffba;
   border: none;
+  min-width: min-content;
 }
 
 .form-control {
@@ -31,13 +32,16 @@
   .container {
     min-width: 300px;
     height: auto;
+    align-items: center;
+    align-content: center;
 
   }
+
   .card-body {
     margin: auto;
+  }
 
-    min-width:min-content;
-
-
+  .title {
+    text-align: center;
   }
 }

@@ -27,40 +27,41 @@ export class HomeComponent implements OnInit, AfterViewInit {
   city: City;
   airQuality: AirQuality;
 
+  searchNameCity = '';
   nameCity = '';
+  countryCode = '';
 
   constructor(private weatherService: WeatherService) {}
 
   ngOnInit() {
-    this.nameCity = '';
+    this.searchNameCity = '';
   }
 
   ngAfterViewInit() {
     this.searchCitySub = fromEvent(this.searchCityRef.nativeElement, 'keyup')
       .pipe(debounceTime(700))
       .subscribe((e: any) => {
-        this.nameCity = e.target.value;
-        this.changeLocalization(this.nameCity);
+        this.searchNameCity = e.target.value;
+        this.changeLocalization(this.searchNameCity);
       });
   }
 
   changeLocalization(newValue: any) {
-    this.nameCity = newValue;
+    this.searchNameCity = newValue;
     this.weatherService
-      .getLocalization(this.nameCity)
+      .getLocalization(this.searchNameCity)
       .pipe(debounceTime(1000))
       .subscribe(
         (res) => {
           this.city = res;
         },
-        (err) => console.log(err)
+        (err) => alert('Erro na API')
       );
   }
 
   getForecastWheather() {
     let endDateBase = new Date(this.date);
     endDateBase.setDate(endDateBase.getDate() + 4);
-
 
     let startDate = this.date
       .toISOString()
@@ -82,9 +83,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         (res) => {
           this.weather = res;
         },
-        (err) => console.log(err)
+        (err) => alert('Erro na API. Previsão de 7 dias em todo o mundo')
       );
-      //API ESTA COM ALGUMA COISA QUE NÃO DEIXA EU OBTER RETORNO DE DATAS PASSADAS, TEM UM LIMITE DE DIA MINIMO
+      this.nameCity = this.city.results[0].name;
+      this.countryCode = this.city.results[0].country_code;
+
+    //API ESTA COM ALGUMA COISA QUE NÃO DEIXA EU OBTER RETORNO DE DATAS PASSADAS, TEM UM LIMITE DE DIA MINIMO
     // this.weatherService
     //   .getAirQuality(
     //     this.city.results[0].latitude,

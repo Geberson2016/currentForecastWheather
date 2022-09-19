@@ -1,9 +1,11 @@
 export class Result {
-latitude: string
-longitude: string
+latitude: string;
+longitude: string;
+name: string;
+country_code: string;
 }
 
 export class City {
-  generationtime_ms?: string
+  generationtime_ms?: string;
   results: Result[];
 }
