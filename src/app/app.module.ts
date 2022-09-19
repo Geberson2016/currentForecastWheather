@@ -27,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatInputModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}

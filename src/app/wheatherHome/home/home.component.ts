@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.searchCitySub = fromEvent(this.searchCityRef.nativeElement, 'keyup')
-      .pipe(debounceTime(1500))
+      .pipe(debounceTime(700))
       .subscribe((e: any) => {
         this.nameCity = e.target.value;
         this.changeLocalization(this.nameCity);
@@ -58,8 +58,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getForecastWheather() {
-    let endDateBase = new Date();
-    endDateBase.setDate(this.date.getDate() + 4);
+    let endDateBase = new Date(this.date);
+    endDateBase.setDate(endDateBase.getDate() + 4);
+
+
     let startDate = this.date
       .toISOString()
       .replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3')
@@ -78,24 +80,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
       )
       .subscribe(
         (res) => {
-          console.log(res);
           this.weather = res;
         },
         (err) => console.log(err)
       );
-    this.weatherService
-      .getAirQuality(
-        this.city.results[0].latitude,
-        this.city.results[0].longitude,
-        startDate,
-        endDate
-      )
-      .subscribe(
-        (res) => {
-          console.log(res);
-          this.airQuality = res;
-        },
-        (err) => console.log(err)
-      );
+      //API ESTA COM ALGUMA COISA QUE NÃO DEIXA EU OBTER RETORNO DE DATAS PASSADAS, TEM UM LIMITE DE DIA MINIMO
+    // this.weatherService
+    //   .getAirQuality(
+    //     this.city.results[0].latitude,
+    //     this.city.results[0].longitude,
+    //     startDate,
+    //     endDate
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       console.log(res);
+    //       this.airQuality = res;
+    //     },
+    //     (err) => console.log(err)
+    //   );
   }
 }

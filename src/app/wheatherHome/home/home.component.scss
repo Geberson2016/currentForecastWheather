@@ -23,6 +23,10 @@
   border: none;
 }
 
+.material-icons {
+  font-size: 15px !important;
+}
+
 @media (min-width: 50px) and (max-width: 450px){
   .container {
     min-width: 300px;
