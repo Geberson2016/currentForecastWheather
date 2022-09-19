@@ -60,6 +60,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getForecastWheather() {
+    if (this.date == undefined) {
+      alert('Data não selecionada. Tente novamente');
+    }
+    if (this.city == undefined) {
+      alert('Cidade não inserida. Tente novamente');
+    }
+
     let endDateBase = new Date(this.date);
     endDateBase.setDate(endDateBase.getDate() + 4);
 
